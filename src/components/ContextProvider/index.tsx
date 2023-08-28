@@ -1,5 +1,5 @@
 "use client"
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react';
 import { NewsType, NewsDataType } from '@/components/types'
 import { BASE_URL } from '@/components/apiUrls'
 
@@ -16,7 +16,7 @@ const newsData = {
 	filters:newFilter,
 	toPrevPage:function(){},
 	pagesCount:0,
-	currentPage:0,
+	currentPage:1,
 	numPerPage:20,
 	doFilter:function(e:string[]){},
 	setError: function(error:string){},
@@ -24,7 +24,8 @@ const newsData = {
 	startLoading: function(){},
 	setFilter:function(e:React.ChangeEvent<HTMLInputElement>){},
 	nextPage:"",
-	prevPage:""
+	prevPage:"",
+	getNewsData:function(endPoint:string){}
 
 }
 
@@ -34,31 +35,40 @@ export const NewsContext = createContext(newsData)
 export default function ContextProvider(
 	{children}: {children: React.ReactNode}){
 	const [updateNews, setUpdateNews] = useState<NewsDataType>(newsData as NewsDataType );
-	const { currentPage, pagesCount, filters, numPerPage} = updateNews;
-
-	useEffect(()=>{
-		async function getData(){
+	const { currentPage, pagesCount, filters, prevPage, numPerPage, nextPage} = updateNews;
+	const getNewsData = useCallback(
+		async (endPoint:string, firstLoading=true) =>{
 			try {
-				const res = await fetch(`${BASE_URL}/news-api/latest/`);
+				const res = await fetch(endPoint);
 				if (res.status === 200){
 		
 					const { overall_total, next, previous, results} = await res.json()
-					let news_size = await Math.ceil(overall_total/numPerPage)
-					setUpdateNews(prevData=>({
-						...prevData,
-						content:results,
-						currentPage:1,
-						pagesCount:news_size,
-						nextPage:next,
-						error:"",loading:false}))
+					let news_size = Math.ceil(overall_total/numPerPage)
+					setUpdateNews(prevData=>{
+						let {currentPage} = prevData;
+						return {
+								...prevData,
+							content:results,
+							currentPage:firstLoading? 1 : currentPage,
+							pagesCount:news_size,
+							nextPage:next,
+							prevPage:previous,
+							error:"",loading:false
+						}
+					})
 				}
 			}
 			catch {
 				setUpdateNews(prevData=>({...prevData,error:"Unable to fetch data",loading:false}))
 			}
-		}
-		getData()
-	},[])
+		},
+		[],
+	)
+
+	useEffect(()=>{
+		getNewsData(`${BASE_URL}/news-api/latest/`)
+	},[getNewsData])
+
 
 	function setNews(data:NewsType[]){
 		let news_size = Math.ceil(data.length/updateNews.numPerPage)
@@ -106,23 +116,35 @@ export default function ContextProvider(
 
 	function toPrevPage(){
 		if ((currentPage - 1) >= 1){
-					let next = currentPage
-					let prev = currentPage - 1
-					setUpdateNews(prevData=>({
-						...prevData,
-						currentPage:prev
-					}))
+			let thisPrev = prevPage;
+			setUpdateNews(prevData=>{
+				thisPrev = prevData.prevPage;
+				return {
+					...prevData,
+					currentPage:prevData['currentPage'] - 1,
+					loading:true,
 				}
+				
+			})
+			getNewsData(thisPrev.replace("http", "https"), false);
+		}
 	}
+
 
 	function toNextPage(){
 		if ((currentPage + 1) <= pagesCount){
-			let prev = currentPage
-			let next = currentPage + 1
-			setUpdateNews(prevData=>({
-				...prevData,
-				currentPage:next
-			}))
+
+			let thisNext = nextPage;
+			setUpdateNews(prevData=>{
+				thisNext = prevData.nextPage;
+				return {
+					...prevData,
+					currentPage:prevData['currentPage'] + 1,
+					loading:true,
+				}
+				
+			})
+			getNewsData(thisNext.replace("http", "https"), false);
 		}
 	}
 
@@ -160,7 +182,7 @@ export default function ContextProvider(
 			}
 			const { overall_total, next, previous, results} = await res.json();
 
-			let news_size = await Math.ceil(overall_total/numPerPage)
+			let news_size = Math.ceil(overall_total/numPerPage)
 			setUpdateNews(prevData=>{
 			return {...prevData,
 			content:results,

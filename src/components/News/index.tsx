@@ -29,7 +29,7 @@ export default function News() {
 				<ul >
 					{content.map((item:NewsType)=><li key={item.api_id}>{item.title}</li>)}
 				</ul>
-				{	nextPage &&
+				{	(nextPage!= null ||  prevPage != null) &&
 					<div className="page-nav flex justify-around sticky bottom-0 bg-white h-[3rem] mt-[2rem]">
 						<button className="" onClick={toPrevPage}>prev</button>
 						<span>page {currentPage} of {pagesCount}</span>

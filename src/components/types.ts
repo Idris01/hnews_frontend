@@ -32,5 +32,6 @@ export type NewsDataType = {
 	setFilter: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	prevPage: string;
 	nextPage: string;
+	getNewsData:(endpoint:string) => void;
 
 }
