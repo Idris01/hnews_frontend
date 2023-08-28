@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="front-page">
       <SearchBar />
-      <div className="bg-orange-100">
+      <div className="">
         <News />
       </div>
     </div>

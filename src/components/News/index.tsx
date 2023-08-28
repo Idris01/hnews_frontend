@@ -4,6 +4,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { NewsContext } from '@/components/ContextProvider'
 import { NewsType } from '@/components/types'
 import Loader, { ContentEmpty } from '@/components/UI'
+import Link from 'next/link';
 
 const initialData = {
 	error:"",
@@ -11,6 +12,20 @@ const initialData = {
 }
 
 
+
+function Story(props:{data:NewsType}){
+	const {title, by, url, id, text, item_type, created_at} = props.data;
+	return (
+		<li>
+			<Link className="flex items-center w-full h-full gap-2" href={`news/${item_type}/${id}`}>
+				<span className="text-sm p-1 bg-green-200 rounded">{item_type}</span>
+				<h4 className="text-lg text-blue-600">{title}</h4>
+				<span className="text-xs">{created_at}</span>
+				<span className="text-sm ml-auto">by - <span className="text-red-500">{by}</span></span>
+			</Link>
+		</li>
+		)
+}
 
 export default function News() {
 	const {
@@ -27,7 +42,9 @@ export default function News() {
 			!loading && error.trim().length === 0 && content.length != 0 &&
 			<div className="news-container">
 				<ul >
-					{content.map((item:NewsType)=><li key={item.api_id}>{item.title}</li>)}
+					{content.map((item:NewsType)=>{
+						return <Story key={item.api_id} data={item} />;
+					})}
 				</ul>
 				{	(nextPage!= null ||  prevPage != null) &&
 					<div className="page-nav flex justify-around sticky bottom-0 bg-white h-[3rem] mt-[2rem]">

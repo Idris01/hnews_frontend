@@ -78,7 +78,7 @@ export default function ContextProvider(
 			let { filters } = prevData;
 			let newData = filters.length === 0 ? 
 							data : data.filter(
-								(item:NewsType)=>filters.includes(item.news_type))
+								(item:NewsType)=>filters.includes(item.item_type))
 			
 			return {
 					...prevData,

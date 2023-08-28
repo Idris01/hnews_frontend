@@ -1,7 +1,7 @@
 import React from 'react'
 
 export type NewsType = {
-	news_type:string,
+	item_type:string,
 	id:number,
 	title:string,
 	api_id:number,
