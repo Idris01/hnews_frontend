@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from  'next/link'
 import { NewsContext } from '@/components/ContextProvider'
+import { BASE_URL } from '@/components/apiUrls'
 
 const filterType = ['story', 'askstory', 'poll', 'job']
 
@@ -25,7 +26,7 @@ function SearchBar() {
 			startLoading();
 			setInputData("")
 			try{
-				const resp = await fetch(`${process.env.API_HOST}/news-api/latest/?search=${inputData}`);
+				const resp = await fetch(`${BASE_URL}/news-api/latest/?search=${inputData}`);
 				if (resp.status === 200){
 					const news = await resp.json()
 					stopLoading();

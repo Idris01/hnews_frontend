@@ -1,6 +1,7 @@
 "use client"
 import { createContext, useState, useEffect } from 'react';
 import { NewsType, NewsDataType } from '@/components/types'
+import { BASE_URL } from '@/components/apiUrls'
 
 const newContent :NewsType[] = [];
 const newFilter :string[] = []
@@ -38,7 +39,7 @@ export default function ContextProvider(
 	useEffect(()=>{
 		async function getData(){
 			try {
-				const res = await fetch(`${process.env.API_HOST}/news-api/latest/`);
+				const res = await fetch(`${BASE_URL}/news-api/latest/`);
 				if (res.status === 200){
 		
 					const { overall_total, next, previous, results} = await res.json()
@@ -153,7 +154,7 @@ export default function ContextProvider(
 		}))
 
 		try{
-			const res = await fetch(`${process.env.API_HOST}/news-api/latest/${params}`);
+			const res = await fetch(`${BASE_URL}/news-api/latest/${params}`);
 			if (res.status > 290){
 				throw Error(`Error ${res.status}`);
 			}
