@@ -33,5 +33,6 @@ export type NewsDataType = {
 	prevPage: string;
 	nextPage: string;
 	getNewsData:(endpoint:string) => void;
+	doSearch:(searchText:string) => void;
 
 }

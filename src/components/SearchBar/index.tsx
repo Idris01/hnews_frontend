@@ -11,7 +11,7 @@ function SearchBar() {
 	const [inputData, setInputData] = useState("");
 	const router = useRouter()
 	const {
-		setNews, startLoading, stopLoading, setFilter,
+		setNews, startLoading, stopLoading, setFilter, doSearch,
 		loading, setError, clearError, doFilter, filters} = useContext(NewsContext)
 	const buttonDisabled = loading || inputData.trim().length === 0
 	
@@ -20,31 +20,13 @@ function SearchBar() {
 		setInputData(value);
 
 	}
-	const doSearch = () =>{
+	const handleSearch = () =>{
 		if (inputData.length === 0) return;
-		(async ()=>{
-			startLoading();
-			setInputData("")
-			try{
-				const resp = await fetch(`${BASE_URL}/news-api/latest/?search=${inputData}`);
-				if (resp.status === 200){
-					const news = await resp.json()
-					stopLoading();
-					clearError();
-					setNews(news);
-				}
-				else{
-					setError(`Error ${resp.status}`)
-					stopLoading()
-				}
-			}
-			catch {
-				stopLoading();
-				setError("Unable to load data")
-			}
-			
-		})();
+		setInputData("");
+		doSearch(inputData);
+
 	}
+
 	return (
 		<div className="flex justify-around sticky top-[4rem] px-3
                       py-5 gap-2 text-xl border border-bottom
@@ -64,7 +46,7 @@ function SearchBar() {
         </section>
         <section className="flex justify-center items-center border rounded">
         <input value={inputData} onChange={inputHandler}  className="h-[100%]" type="text" name="" id="" placeholder="Enter search" />
-        <button onClick={doSearch} className={`bg-gray-200 cursor-pointer h-[100%] 
+        <button onClick={handleSearch} className={`bg-gray-200 cursor-pointer h-[100%] 
         					px-3 ${buttonDisabled? "bg-orange-400 text-gray-500 text-gray-100" 
         					: "bg-green-400 text-white"}`} disabled={buttonDisabled} >Search</button>
         </section>

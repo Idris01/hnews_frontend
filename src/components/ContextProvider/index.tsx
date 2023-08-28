@@ -25,7 +25,8 @@ const newsData = {
 	setFilter:function(e:React.ChangeEvent<HTMLInputElement>){},
 	nextPage:"",
 	prevPage:"",
-	getNewsData:function(endPoint:string){}
+	getNewsData:function(endPoint:string){},
+	doSearch: function(searchText:string){}
 
 }
 
@@ -165,6 +166,16 @@ export default function ContextProvider(
 			});
 	}
 
+	async function doSearch(searchText:string){
+		const url= BASE_URL + "/news-api/latest" + ( filters.length === 0 ? `?search=${searchText}` :
+					`?news_type=${filters.toString()}&search=${searchText}`);
+		setUpdateNews(prevData=>({
+			...prevData,
+			loading:true
+		}));
+
+		getNewsData(url);
+	}
 
 	async function doFilter(myFilters: string[]){
 		const params= myFilters.length === 0 ? "?" :
@@ -208,7 +219,8 @@ export default function ContextProvider(
 				toNextPage,
 				toPrevPage,
 				doFilter,
-				setFilter
+				setFilter,
+				doSearch,
 			}}>
 				{children}
 			</NewsContext.Provider>
