@@ -8,16 +8,15 @@ export const metadata: Metadata = {
   description: 'All Tech related news and happenings',
 }
 
-export default function RootLayout({
-  children,
-}: {
+export default async function RootLayout(props: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en">
       <body className="">
         <Layout>
-          {children}
+          {props.children}
         </Layout>
       </body>
     </html>
