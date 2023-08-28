@@ -25,7 +25,7 @@ function SearchBar() {
 			startLoading();
 			setInputData("")
 			try{
-				const resp = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/news-api/latest/?search=${inputData}`);
+				const resp = await fetch(`${process.env.API_HOST}/news-api/latest/?search=${inputData}`);
 				if (resp.status === 200){
 					const news = await resp.json()
 					stopLoading();
