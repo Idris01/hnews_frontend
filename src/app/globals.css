@@ -42,7 +42,7 @@
     @apply flex flex-col gap-[0.5rem] h-full ;
   }
   .news-container ul li{
-    @apply bg-gray-100 h-[3rem] py-1 px-1 md:mx-[3rem];
+    @apply bg-gray-100  py-1 px-1 md:mx-[3rem];
   }
 
   .page-nav button{
