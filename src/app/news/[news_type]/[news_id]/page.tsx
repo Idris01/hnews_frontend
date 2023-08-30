@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import { BASE_URL } from '@/components/apiUrls'
 import { NewsType } from '@/components/types'
 
@@ -23,7 +22,7 @@ async function getNews(params:{news_id:number, news_type:string}){
 	try {
 		const url = `${BASE_URL}/news-api/${news_type}/${news_id}`
 		const resp = await fetch(url);
-		if (resp.status > 299) throw Error(`${resp.status}`);
+		if (resp.status > 299) throw new Error(`${resp.status}`);
 		data.news = await resp.json();
 	}
 	catch(errorStatus:any) {
@@ -51,7 +50,7 @@ export default async function NewsItem({params}:any) {
 
 		{url &&  <span className="flex w-full bg-red-100 justify-center"> 
 					More about the news at  
-					<Link className="ml-3 text-blue-500"  href={url}> {url}</Link>
+					<a className="ml-3 text-blue-500"  href={url}> {url}</a>
 				</span>
 		}
 		</div>
