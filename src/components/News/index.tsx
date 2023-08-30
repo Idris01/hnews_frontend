@@ -4,7 +4,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { NewsContext } from '@/components/ContextProvider'
 import { NewsType } from '@/components/types'
 import Loader, { ContentEmpty } from '@/components/UI'
-import Link from 'next/link';
 
 const initialData = {
 	error:"",
@@ -17,12 +16,12 @@ function Story(props:{data:NewsType}){
 	const {title, by, url, id, text, item_type, created_at} = props.data;
 	return (
 		<li>
-			<Link className="flex items-center w-full h-full gap-2" href={`news/${item_type}/${id}`}>
+			<a className="flex items-center w-full h-full gap-2" href={`news/${item_type}/${id}`}>
 				<span className="text-sm p-1 bg-green-200 rounded">{item_type}</span>
 				<h4 className="text-lg text-blue-600">{title}</h4>
 				<span className="text-xs">{created_at}</span>
 				<span className="text-sm ml-auto">by - <span className="text-red-500">{by}</span></span>
-			</Link>
+			</a>
 		</li>
 		)
 }
