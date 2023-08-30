@@ -7,7 +7,7 @@ const newMessage:NewsType = {
 	};
 
 export async function generateStaticParams(){
-	return [{news_id: '1'}, {news_type: '2'}]
+	return [{news_type: '1'}, {news_id: '2'}]
 }
 
 async function getNews(params:{news_id:number, news_type:string}){
@@ -22,7 +22,7 @@ async function getNews(params:{news_id:number, news_type:string}){
 	try {
 		const url = `${BASE_URL}/news-api/${news_type}/${news_id}`
 		const resp = await fetch(url);
-		if (resp.status > 299) throw new Error(`${resp.status}`);
+		if (resp.status > 399) throw new Error(`${resp.status}`);
 		data.news = await resp.json();
 	}
 	catch(errorStatus:any) {
@@ -37,7 +37,7 @@ export default async function NewsItem({params}:any) {
 	const {message, status, news} = res;
 	const { url, text, title} = news;
 
-	if (status > 299) return <div>{message}</div>;
+	if (status > 399) return <div>{message}</div>;
 	return (
 		<div  className="news-detail w-100 mx-[5rem]">
 		<h2 className="flex justify-center p-4 w-full text-2xl">{title}</h2>
