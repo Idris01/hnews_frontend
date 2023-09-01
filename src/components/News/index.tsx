@@ -14,10 +14,10 @@ const initialData = {
 
 
 function Story(props:{data:NewsType}){
-	const {title, by, url, id, text, item_type, created_at} = props.data;
+	const {title, by, url, id, item_type, created_at} = props.data;
 	return (
 		<li>
-			<Link className="flex items-center w-full h-full gap-2" href={`/news/${item_type}/${id}`}>
+			<Link prefetch={true} className="flex items-center w-full h-full gap-2" href={`/news/${item_type}/${id}`}>
 				<span className="text-sm p-1 bg-green-200 rounded">{item_type}</span>
 				<h4 className="text-lg text-blue-600">{title}</h4>
 				<span className="text-xs">{created_at}</span>

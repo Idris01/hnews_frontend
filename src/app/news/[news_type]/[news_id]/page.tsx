@@ -10,6 +10,7 @@ export async function generateStaticParams(){
 	return [{news_type: '1'}, {news_id: '2'}]
 }
 
+
 async function getNews(params:{news_id:number, news_type:string}){
 	const {news_id, news_type} = params
 	
@@ -21,13 +22,13 @@ async function getNews(params:{news_id:number, news_type:string}){
 
 	try {
 		const url = `${BASE_URL}/news-api/${news_type}/${news_id}`
-		const resp = await fetch(url);
+		const resp = await fetch(url, {method:'GET', redirect:'follow'});
 		if (resp.status > 399) throw new Error(`${resp.status}`);
 		data.news = await resp.json();
 	}
-	catch(errorStatus:any) {
+	catch {
 		data.message= "an Error has occured";
-		data.status = errorStatus;
+		data.status = 404;
 	}
 	return data;
 }
