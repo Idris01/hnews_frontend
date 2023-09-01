@@ -19,7 +19,7 @@ async function getNews(params:{news_id:number, news_type:string}){
 		status:200,
 		message:""
 	}
-
+	
 	try {
 		const url = `${BASE_URL}/news-api/${news_type}/${news_id}`
 		const resp = await fetch(url, {method:'GET', redirect:'follow'});

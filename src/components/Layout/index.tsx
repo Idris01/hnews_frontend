@@ -1,6 +1,14 @@
 import React from 'react'
 import ContextProvider from '@/components/ContextProvider'
 
+export function ErrorLayout({children,}:{children:React.ReactNode}){
+	return (
+		<div className="flex items-center justify-center w-100 h-full">
+			{children}
+		</div>
+		)
+}
+
 function Layout({children,}:{children:React.ReactNode}) {
 	return (
 		<ContextProvider>
