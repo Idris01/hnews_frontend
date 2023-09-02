@@ -15,10 +15,15 @@ export default function GlobalError({
 		setErrorDetail(error.toString());
 	}, [error])
 
-	return <ErrorLayout>
-		<div className="flex w-100 h-100 flex-col justify-center items-center">
-			<h2 className="text-2xl">{errorDetail}</h2>
-			<button className="bg-blue-400 text-white rounded p-2" onClick={()=>reset()}>Refresh</button>
-		</div>
-	</ErrorLayout>
+	return <html>
+		<body>
+			<ErrorLayout>
+				<div className="flex w-100 h-100 flex-col justify-center items-center">
+					<h2 className="text-2xl">{errorDetail}</h2>
+					<button className="bg-blue-400 text-white rounded p-2" onClick={()=>reset()}>Refresh</button>
+				</div>
+			</ErrorLayout>
+		</body>
+	</html> 
+	
 }

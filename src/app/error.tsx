@@ -18,7 +18,7 @@ export default function GlobalError({
 	return <ErrorLayout>
 		<div className="flex w-full h-full flex-col justify-center items-center">
 			<h2 className="text-2xl">{errorDetail}</h2>
-			<button onClick={()=>reset()}>Refresh</button>
+			<button className="bg-blue-600 p-2 text-white rounded" onClick={()=>reset()}>Refresh</button>
 		</div>
 	</ErrorLayout>
 		
